@@ -13,13 +13,13 @@ export const Address: FC<Props> = (props: Props): ReactElement => {
 
     return (<>
         <h2 className="subtitle">Address Information</h2>
-        <div className="columns">
-            <div className="column is-4">
+        <div className="columns is-multiline">
+            <div className="column is-12">
                 <label className="label" htmlFor="street">Street Name</label>
                 <input className="input" id="street" name="street" type="text" value={props.streetName}
                        onChange={(event) => props.setStreetName(event.target.value)}/>
             </div>
-            <div className="column is-4">
+            <div className="column is-12">
                 <label className="label" htmlFor="town">Town</label>
                 <input className="input" id="town" name="town" type="text" value={props.town}
                        onChange={(event) => props.setTown(event.target.value)}/>
