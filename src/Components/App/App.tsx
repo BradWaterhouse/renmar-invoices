@@ -27,35 +27,56 @@ export const App = (): ReactElement => {
     const [requirements, setRequirements] = useState<string[]>([]);
     const [exclusions, setExclusions] = useState<string[]>([]);
 
-    useEffect((): void => setInvoiceNumber(DateTime.local().toFormat("yyMdHs")), [])
+    useEffect((): void => setInvoiceNumber(DateTime.local().toFormat("yyMdHs")), []);
 
-    const addActivity = (activity: { name: string; price: number }) => {
+    const addActivity = (activity: { name: string; price: number }): void => {
         setActivities([...activities, activity])
-    }
+    };
 
-    const addRequirement = (requirement: string) => {
+    const addRequirement = (requirement: string): void => {
         setRequirements([...requirements, requirement])
-    }
+    };
 
-    const addExclusion = (exclusion: string) => {
+    const addExclusion = (exclusion: string): void => {
         setExclusions([...exclusions, exclusion])
-    }
+    };
 
-    const delay = (t: any) => new Promise((resolve) => setTimeout(resolve, t));
+    const removeActivity = (index: number): void => {
+        const newActivities = [...activities];
+        newActivities.splice(index, 1);
 
-    async function getProps() {
+        setActivities(newActivities);
+    };
+
+    const removeRequirement = (index: number): void => {
+        const newRequirements = [...requirements];
+        newRequirements.splice(index, 1);
+
+        setRequirements(newRequirements);
+    };
+
+    const removeExclusion = (index: number): void => {
+        const newExclusions = [...exclusions];
+        newExclusions.splice(index, 1);
+
+        setExclusions(newExclusions);
+    };
+
+    const delay = (t: any): Promise<void> => new Promise((resolve) => setTimeout(resolve, t));
+
+    const getProps = async (): Promise<{fakePromise: string}> => {
         await delay(1_000);
         return ({
-            someString: 'You waited 1 second for this',
+            fakePromise: 'You waited 1 second for this',
         });
-    }
+    };
 
     return (
         <div className="app m-3">
             <Helmet>
                 <title>Invoice Generator</title>
             </Helmet>
-            <h1 className="title has-text-centered mt-3">Renmar Construction Invoice Generator</h1>
+            <h1 className="title has-text-centered mt-3">Invoice Generator</h1>
 
             <div className="columns">
                 <div className="column is-6">
@@ -76,30 +97,30 @@ export const App = (): ReactElement => {
                 </div>
                 <div className="column is-6">
                     <AddActivity addActivity={addActivity}/>
-                    {activities.map((activity: any) => (
+                    {activities.map((activity: any, index: number) => (
                         <div className="columns">
                             <div className="column is-8">
                                 <span className="is-capitalized">{activity.name} - £{activity.price.toFixed(2)}</span><span><button
-                                className="delete ml-4 has-background-danger"/></span>
+                                className="delete ml-4 has-background-danger" onClick={(): void => removeActivity(index)}/></span>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
-            <hr/>
 
+            <hr/>
 
             <div className="columns">
                 <div className="column">
                     <h2 className="subtitle">Project Specific Requirements</h2>
                     <AddItem addItem={addRequirement} type='Requirement' />
 
-                    {requirements.map((requirement: string) => (
+                    {requirements.map((requirement: string, index: number) => (
                         <div className="columns">
                             <div className="column is-12">
                                 <span className="is-capitalized">{requirement}</span><span>
                                 <button
-                                    className="delete ml-4 has-background-danger"/>
+                                    className="delete ml-4 has-background-danger" onClick={(): void => removeRequirement(index)}/>
                             </span>
                             </div>
                         </div>
@@ -111,12 +132,12 @@ export const App = (): ReactElement => {
                     <h2 className="subtitle">Exclusions</h2>
                     <AddItem addItem={addExclusion} type='Exclusion' />
 
-                    {exclusions.map((exclusion: string) => (
+                    {exclusions.map((exclusion: string, index: number) => (
                         <div className="columns">
                             <div className="column is-12">
                                 <span className="is-capitalized">{exclusion}</span><span>
                                 <button
-                                    className="delete ml-4 has-background-danger"/>
+                                    className="delete ml-4 has-background-danger" onClick={(): void => removeExclusion(index)}/>
                             </span>
                             </div>
                         </div>

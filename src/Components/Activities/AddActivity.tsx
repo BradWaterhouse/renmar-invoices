@@ -20,17 +20,25 @@ export const AddActivity: FC<Props> = (props: Props): ReactElement => {
             <h2 className="subtitle">Main Activities</h2>
             <form onSubmit={handleAdd}>
                 <div className="columns">
-                    <div className="column is-8">
+                    <div className="column is-7">
                         <label className="label" htmlFor="name">Name</label>
                         <input className="input" id="name" name="name" type="text" placeholder="Activity Name"
                                value={name}
                                required={true}
-                               onChange={(event) => setName(event.target.value)}/>
+                               onChange={(event): void => setName(event.target.value)}/>
                     </div>
-                    <div className="column is-2">
+                    <div className="column is-3">
                         <label className="label" htmlFor="price">Price</label>
-                        <input className="input" id="price" name="price" type="number" placeholder="Activity Price"
-                               value={price} onChange={(event) => setPrice(event.target.valueAsNumber)}/>
+                        <div className="field has-addons">
+                            <p className="control">
+                                <a className="button is-static">
+                                    £
+                                </a>
+                            </p>
+                            <p className="control is-expanded">
+                                <input className="input" type="number" id="price" name="price" placeholder="Activity Price" value={price} onChange={(event) => setPrice(event.target.valueAsNumber)} />
+                            </p>
+                        </div>
                     </div>
                     <div className="column is-1 has-text-centered">
                         <button className="button mt-5" style={{backgroundColor: "#ff831e", color: "#0d0d0d"}} id="add"
